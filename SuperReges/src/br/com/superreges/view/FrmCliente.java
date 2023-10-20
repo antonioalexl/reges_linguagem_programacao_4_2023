@@ -19,7 +19,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     public FrmCliente() {
         initComponents();
         this.habilitarCampos(false);
-        
+
         this.modoInicial();
     }
 
@@ -242,11 +242,10 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                             .addComponent(txtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(15, 15, 15)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel5)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)))
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,54 +280,75 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        
-        Endereco endereco = new Endereco(txtRua.getText(), 
-                txtBairro.getText(), txtNumero.getText(), 
-                txtUf.getText(), txtCep.getText(), "" );
-        
-               
-           
-        Cliente cliente = new Cliente(txtNome.getText(), 
-                txtFantasia.getText(), 
-                endereco, 
-                txtTelefone.getText(), 
-                null, 
-                txtDocumento.getText(), 
+
+        //carregar os objetos
+        Endereco endereco = new Endereco(txtRua.getText(),
+                txtBairro.getText(), txtNumero.getText(),
+                txtUf.getText(), txtCep.getText(), "");
+
+        Cliente cliente = new Cliente(txtNome.getText(),
+                txtFantasia.getText(),
+                endereco,
+                txtTelefone.getText(),
+                null,
+                txtDocumento.getText(),
                 txtRg.getText(),
-                txtEmail.getText(), 
+                txtEmail.getText(),
                 txtFidelidade.getText());
-        
-        
+
         cliente.imprimir();
         
+        //enviar para o banco de dados
         
+        //limpar os componentes
+        limparCampos();
+        
+        //modo inicial
+        modoInicial();
+        
+        //desabilitar componentes
+        habilitarCampos(false);
+
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        
-        this.habilitarCampos(true);
-        
-        this.modoNovo();
-        
-    }//GEN-LAST:event_btnNovoActionPerformed
 
-    private void modoInicial(){
+        this.habilitarCampos(true);
+
+        this.modoNovo();
+
+    }//GEN-LAST:event_btnNovoActionPerformed
+    private void modoInicial() {
         this.btnNovo.setEnabled(true);
         this.btnSalvar.setEnabled(false);
         this.btnExcluir.setEnabled(false);
-    
     }
-    
-    private void modoNovo(){
-     this.btnNovo.setEnabled(false);
+
+    private void modoNovo() {
+        this.btnNovo.setEnabled(false);
         this.btnSalvar.setEnabled(true);
         this.btnExcluir.setEnabled(false);
     }
-    
-    
-    private void habilitarCampos(boolean ativo)
-    {
+
+    private void limparCampos() {
+        txtBairro.setText("");
+        txtCep.setText("");
+        txtCidade.setText("");
+        txtDocumento.setText("");
+        txtEmail.setText("");
+        txtFantasia.setText("");
+        txtFidelidade.setText("");
+        txtNascimento.setText("");
+        txtNome.setText("");
+        txtNumero.setText("");
+        txtRg.setText("");
+        txtRua.setText("");
+        txtTelefone.setText("");
+        txtUf.setText("");
+    }
+
+    private void habilitarCampos(boolean ativo) {
         txtBairro.setEnabled(ativo);
         txtCep.setEnabled(ativo);
         txtCidade.setEnabled(ativo);
@@ -344,7 +364,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         txtTelefone.setEnabled(ativo);
         txtUf.setEnabled(ativo);
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExcluir;
