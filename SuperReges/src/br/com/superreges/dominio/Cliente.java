@@ -11,6 +11,14 @@ import java.util.Calendar;
  * @author Alex
  */
 public class Cliente extends Pessoa {
+
+    public String getCartaoFidelidade() {
+        return cartaoFidelidade;
+    }
+
+    public void setCartaoFidelidade(String cartaoFidelidade) {
+        this.cartaoFidelidade = cartaoFidelidade;
+    }
     
     private String cartaoFidelidade;  
 

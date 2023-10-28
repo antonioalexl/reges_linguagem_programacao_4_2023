@@ -4,6 +4,8 @@
  */
 package br.com.superreges.view;
 
+import br.com.superreges.rdn.ConnectionFactory;
+
 /**
  *
  * @author Alex
@@ -47,6 +49,7 @@ public class Principal {
                 new JanelaPrincipal().setVisible(true);
             }
         });
+                
     }
 
     
