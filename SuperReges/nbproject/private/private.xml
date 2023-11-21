@@ -5,9 +5,14 @@
         <group>
             <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/dominio/Cliente.java</file>
             <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/dominio/Pessoa.java</file>
+            <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/rdn/EnderecoRdn.java</file>
             <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/view/FrmCliente.java</file>
             <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/rdn/ClienteRdn.java</file>
+            <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/dominio/ItemCompra.java</file>
             <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/view/Principal.java</file>
+            <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/dominio/Endereco.java</file>
+            <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/dominio/Fornecedor.java</file>
+            <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/dominio/Funcionario.java</file>
             <file>file:/C:/Users/anton/source/repos/Reges/2023/reges_linguagem_programacao_4_2023/SuperReges/src/br/com/superreges/rdn/ConnectionFactory.java</file>
         </group>
     </open-files>

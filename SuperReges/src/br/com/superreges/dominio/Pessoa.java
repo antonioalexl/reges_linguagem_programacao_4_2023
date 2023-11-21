@@ -12,6 +12,7 @@ import java.util.Calendar;
  */
 public abstract class Pessoa {
 
+    private int id;
     private String nomeCompleto; //razao social
     private String nomeResumido; //fantasia
     private String email;
@@ -21,7 +22,8 @@ public abstract class Pessoa {
     private String documento; //cnpj ou cpf
     private String rgIe; //inscricao estadual ou rg
 
-    public Pessoa(String nomeCompleto, String nomeResumido, Endereco endereco, String telefone, Calendar dataNascFund, String documento, String rgIe, String email) {
+    public Pessoa(int id, String nomeCompleto, String nomeResumido, Endereco endereco, String telefone, Calendar dataNascFund, String documento, String rgIe, String email) {
+         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.nomeResumido = nomeResumido;
         this.endereco = endereco;
@@ -32,6 +34,14 @@ public abstract class Pessoa {
         this.email = email;
     }
 
+    
+      public int getId() {
+        return id;
+    }
+
+    public void setId(int value) {
+       this.id = value;
+    }
     public String getNomeCompleto() {
         return nomeCompleto;
     }

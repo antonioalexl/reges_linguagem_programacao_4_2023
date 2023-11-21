@@ -7,9 +7,14 @@ package br.com.superreges.view;
 import br.com.superreges.dominio.Cliente;
 import br.com.superreges.dominio.Endereco;
 import br.com.superreges.rdn.ClienteRdn;
+import br.com.superreges.rdn.EnderecoRdn;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,11 +25,15 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     /**
      * Creates new form FrmCliente
      */
+    int id = 0;
+    boolean modoAlterarDeletar = false;
+
     public FrmCliente() {
         initComponents();
         this.habilitarCampos(false);
 
         this.modoInicial();
+        this.carregarTabela();
     }
 
     /**
@@ -50,7 +59,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         txtBairro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableCliente = new javax.swing.JTable();
         btnNovo = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
@@ -69,6 +78,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         txtRg = new javax.swing.JTextField();
         txtNascimento = new javax.swing.JFormattedTextField();
+        btnCancelar = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -86,7 +96,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Bairro");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -102,7 +112,12 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tableCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableCliente);
 
         btnNovo.setText("Novo");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -112,6 +127,11 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +155,13 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         jLabel8.setText("Rg");
 
         txtNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -225,7 +252,9 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                                 .addComponent(btnSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnExcluir)
-                                .addGap(249, 249, 249))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCancelar)
+                                .addGap(171, 171, 171))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,8 +305,10 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnExcluir)
-                    .addComponent(btnSalvar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSalvar)
+                        .addComponent(btnExcluir)
+                        .addComponent(btnCancelar))
                     .addComponent(btnNovo))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
@@ -287,8 +318,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-        
-            Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -297,18 +327,16 @@ public class FrmCliente extends javax.swing.JInternalFrame {
             cal.setTime(sdf.parse(txtNascimento.getText()));
 
         } catch (ParseException ex) {
-            
-        }
-        
-        
-        
-        
-        //carregar os objetos
-        Endereco endereco = new Endereco(txtRua.getText(),
-                txtBairro.getText(), txtNumero.getText(),
-                txtUf.getText(), txtCep.getText(), "");
 
-        Cliente cliente = new Cliente(txtNome.getText(),
+        }
+
+        //int id, String logradouro, String bairro, String numero, String cidade, String uf, String cep, int idCliente) {
+        //carregar os objetos
+        Endereco endereco = new Endereco(0, txtRua.getText(),
+                txtBairro.getText(), txtNumero.getText(),
+                txtCidade.getText(), txtUf.getText(), txtCep.getText(), this.id);
+
+        Cliente cliente = new Cliente(this.id, txtNome.getText(),
                 txtFantasia.getText(),
                 endereco,
                 txtTelefone.getText(),
@@ -319,22 +347,31 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                 txtFidelidade.getText());
 
         cliente.imprimir();
+
+          ClienteRdn rdn = new ClienteRdn();
+        if(this.modoAlterarDeletar == true){
         
+            rdn.alterarCliente(cliente);
+        }
+        else{
         //enviar para o banco de dados
-        ClienteRdn rdn = new ClienteRdn();
+      
         rdn.inserirCliente(cliente);
-        
+        }
         //limpar os componentes
         limparCampos();
-        
+
         //modo inicial
         modoInicial();
-        
+
         //desabilitar componentes
         habilitarCampos(false);
+        
+        this.carregarTabela();
 
 
     }//GEN-LAST:event_btnSalvarActionPerformed
+
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
 
@@ -343,6 +380,90 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         this.modoNovo();
 
     }//GEN-LAST:event_btnNovoActionPerformed
+
+    private void tableClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClienteMouseClicked
+        // TODO add your handling code here:
+        this.modoAlterarDeletar = true;
+
+        //PEGA A LINHA SELECIONADA
+        int row = this.tableCliente.getSelectedRow();
+
+        //RECUPERA O VALOr DA COLUNA ID ESTA NA 0
+        int idCliente = (int) this.tableCliente.getValueAt(row, 0);
+
+        //GUARDA O ID PARA ALTERAR/REMOVER
+        this.id = idCliente;
+
+        //int indice = 0;
+        ClienteRdn rdn = new ClienteRdn();
+
+        //RECUPERAR POR ID
+        Cliente cliente = rdn.obterPorId(id);
+
+      
+        txtNome.setText(cliente.getNomeCompleto());
+        txtFantasia.setText(cliente.getNomeResumido());
+        txtRg.setText(cliente.getRgIe());
+        txtEmail.setText(cliente.getEmail());
+        txtFidelidade.setText(cliente.getCartaoFidelidade());
+        txtTelefone.setText(cliente.getTelefone());
+        txtDocumento.setText(cliente.getDocumento());
+
+        //ALTERAR A DATA
+        DateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+        txtNascimento.setText(formataData.format(cliente.getDataNascFund().getTime()));
+
+        txtRua.setText(cliente.getEndereco().getLogradouro());
+        txtNumero.setText(cliente.getEndereco().getNumero());
+        txtBairro.setText(cliente.getEndereco().getBairro());
+        txtCep.setText(cliente.getEndereco().getCep());
+
+        txtUf.setText(cliente.getEndereco().getUf());
+        txtCidade.setText(cliente.getEndereco().getCidade());
+
+        this.habilitarCampos(true);
+
+        btnNovo.setEnabled(false);
+
+        btnExcluir.setEnabled(true);
+
+        btnSalvar.setText("Alterar");
+        
+        btnSalvar.setEnabled(true);
+
+
+    }//GEN-LAST:event_tableClienteMouseClicked
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+
+        int input = JOptionPane.showConfirmDialog(null,
+                "Deseja realmente excluir?", "Atenção!!!", JOptionPane.YES_NO_OPTION);
+
+        if (input == 0) {
+
+            EnderecoRdn endRdn = new EnderecoRdn();
+
+            endRdn.deletarEnderecoPorCliente(this.id);
+
+            ClienteRdn rdn = new ClienteRdn();
+
+            rdn.deletarCliente(this.id);
+
+            this.carregarTabela();
+
+        }
+        this.modoNovo();
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+            this.limparCampos();
+            this.habilitarCampos(false);
+            this.btnSalvar.setEnabled(false);
+            this.btnExcluir.setEnabled(false);
+            this.btnSalvar.setText("Salvar");
+            this.btnNovo.setEnabled(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
     private void modoInicial() {
         this.btnNovo.setEnabled(true);
         this.btnSalvar.setEnabled(false);
@@ -353,6 +474,10 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         this.btnNovo.setEnabled(false);
         this.btnSalvar.setEnabled(true);
         this.btnExcluir.setEnabled(false);
+
+        this.limparCampos();
+        this.btnSalvar.setEnabled(true);
+        this.btnSalvar.setText("Salvar");
     }
 
     private void limparCampos() {
@@ -389,8 +514,47 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         txtUf.setEnabled(ativo);
     }
 
+    private void carregarTabela() {
 
+        //CLASSE USADA PARA MANIPULAR A TABELA
+        DefaultTableModel model = (DefaultTableModel) tableCliente.getModel();
+
+        //limpar a tabela antes de selecionar
+        model.setRowCount(0);
+
+        ClienteRdn cliRdn = new ClienteRdn();
+
+        List<Cliente> lstCli = cliRdn.obterTodos();
+
+        //para cada cliente da lista
+        if (lstCli != null) {
+            for (Cliente cli : lstCli) {
+
+                DateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+
+                //adicionar a linha
+                model.addRow(new Object[]{
+                    cli.getId(),
+                    cli.getNomeCompleto(),
+                    cli.getDocumento(),
+                    cli.getTelefone(),
+                    formataData.format(cli.getDataNascFund().getTime()),
+                    cli.getEmail(),
+                    cli.getCartaoFidelidade(),
+                    cli.getEndereco().getLogradouro(),
+                    cli.getEndereco().getBairro(),
+                    cli.getEndereco().getCep(),
+                    cli.getEndereco().getCidade(),
+                    cli.getEndereco().getNumero(),
+                    cli.getEndereco().getUf()
+                });
+            }
+        }
+        tableCliente.setModel(model);
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnSalvar;
@@ -408,8 +572,8 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblUf;
+    private javax.swing.JTable tableCliente;
     private javax.swing.JTextField txtBairro;
     private javax.swing.JTextField txtCep;
     private javax.swing.JTextField txtCidade;
